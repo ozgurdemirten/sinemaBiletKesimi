@@ -1,12 +1,13 @@
 const koltuklar = document.querySelector(".koltuk-component");
-let clickKoltuk=document.querySelectorAll(".th-click");
-
-let id=0;
-let idArray=[];
+let clickKoltuk = document.querySelectorAll(".th-click");
+const uElementiAdet = document.querySelector(".bottom-display-adet");
+const uElementiUcret=document.querySelector(".bottom-display-coin-u")
+let id = 0;
+let idArray = [];
 class koltukSecimi {
 
     displayKoltuk() {
-        
+
         for (let index = 0; index < 5; index++) {
             koltuklar.innerHTML += `
         
@@ -44,63 +45,74 @@ class koltukSecimi {
 
         }
 
-    
+
     }
 
-    displayClick(){
-        clickKoltuk=koltuklar.querySelectorAll(".th-click");
+    displayClick() {
+        clickKoltuk = koltuklar.querySelectorAll(".th-click");
         //console.log(clickKoltuk);
-        koltuklar.addEventListener("click",event=>{
-               // console.log(event.target.dataset.id);
-                event.target.dataset.id;
-                this.colorChange(event.target,event.target.dataset.id);
-        //console.log(event.target.style.backgroundColor);
-          
+        koltuklar.addEventListener("click", event => {
+            // console.log(event.target.dataset.id);
+            event.target.dataset.id;
+            this.colorChange(event.target, event.target.dataset.id);
+            //console.log(event.target.style.backgroundColor);
+            this.biletUcret();
 
         });
-        
 
 
-        
+
+
     }
-    colorChange(eventTarget,id){
-        idArray=Storage.getKoltuk();
+    colorChange(eventTarget, id) {
+        idArray = Storage.getKoltuk();
         console.log(eventTarget.style.backgroundColor != "lightyellow");
-        if(eventTarget.dataset.id!=null && eventTarget.style.backgroundColor != "lightyellow")
-        {
-            eventTarget=eventTarget.style.backgroundColor = "LightYellow";
+        if (eventTarget.dataset.id != null && eventTarget.style.backgroundColor != "lightyellow") {
+            eventTarget = eventTarget.style.backgroundColor = "LightYellow";
             idArray.push(id);
             this.colorChangeLocalStorage(idArray);
         }
-        else if(eventTarget.dataset.id!=null ){
-            eventTarget=eventTarget.style.backgroundColor = "#00FA9A";
+        else if (eventTarget.dataset.id != null) {
+            eventTarget = eventTarget.style.backgroundColor = "#00FA9A";
             idArray.pop(id);
             this.colorChangeLocalStorage(idArray);
         }
-        
+
 
     }
-    colorChangeLocalStorage(idArray)
-    {
+    colorChangeLocalStorage(idArray) {
         Storage.saveKoltuklar(idArray);
     }
-    colorStatementGetStorage(){
-        let degisken=Storage.getKoltuk();
-        
+    colorStatementGetStorage() {
+        let degisken = Storage.getKoltuk();
+
         clickKoltuk.forEach(element => {
-            let id1=degisken.find((d)=>d===element.dataset.id);
-            
-            if(id1===element.dataset.id)
-            {
-                element.setAttribute("style","background-color:LightYellow;")
+            let id1 = degisken.find((d) => d === element.dataset.id);
+
+            if (id1 === element.dataset.id) {
+                element.setAttribute("style", "background-color:LightYellow;")
             }
-            
+
         });
         //console.log(clickKoltuk[11].dataset.id);
-       
-       
+
+
     }
+    biletSayisi() {
+        let degisken = Storage.getKoltuk().length;
+        return degisken;
+    }
+  biletUcret(){
+        let adet=this.biletSayisi();
+        let sayisi=35*this.biletSayisi();
+        console.log(sayisi);
+        uElementiAdet.innerHTML=adet;
+        uElementiUcret.innerHTML=sayisi;     
+          
+        }
+
 }
+
 
 class Storage {
     static saveKoltuklar(koltuklar) {
@@ -121,11 +133,15 @@ class Storage {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    
+
     const koltukSecimi1 = new koltukSecimi();
-     koltukSecimi1.displayKoltuk();
-        koltukSecimi1.displayClick();
-        koltukSecimi1.colorStatementGetStorage();
     
-     
+    
+    koltukSecimi1.displayKoltuk();
+    koltukSecimi1.displayClick();
+    
+    koltukSecimi1.colorStatementGetStorage();
+    
+    
+
 });
