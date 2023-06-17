@@ -4,6 +4,8 @@ const uElementiAdet = document.querySelector(".bottom-display-adet");
 const uElementiUcret=document.querySelector(".bottom-display-coin-u")
 let id = 0;
 let idArray = [];
+let idArrayKirmizi = [];
+
 class koltukSecimi {
 
     displayKoltuk() {
@@ -47,61 +49,132 @@ class koltukSecimi {
 
 
     }
+    biletSayisi() {
+        let degisken = Storage.getKoltuk().length;
+        return degisken;
+    }
+    keyDown(){
+        
+        
+        
+        clickKoltuk = koltuklar.querySelectorAll(".th-click");
+        //console.log(idArray);
+        document.addEventListener("keydown", event=> {
+            idArrayKirmizi = Storage.getKoltuk();
 
+            console.log("idarraykirimizi",idArrayKirmizi);
+            if(event.key==="Enter" && idArrayKirmizi.length!=null){
+                console.log(event.key);
+                //console.log(idArray);
+                idArrayKirmizi.forEach(element => {
+                    //console.log(clickKoltuk[element]);
+                   // console.log(clickKoltuk[element].dataset.id);
+                    idArrayKirmizi.push(clickKoltuk[element].dataset.id);
+                    clickKoltuk[element].setAttribute("style", "background-color:red;");
+                    
+                    this.colorChangeKeyDown(idArray,idArrayKirmizi,clickKoltuk[element],clickKoltuk[element].dataset.id,"red");
+                });
+               
+                
+            }
+           
+            
+            
+          })
+          
+          
+    }
+    colorChangeKeyDown(idArray,idArrayKirmizi,eventTarget,id,renk){
+       {
+            idArrayKirmizi = Storage.getKoltuk();
+           // console.log("array kirmizi",idArrayKirmizi);
+            eventTarget = eventTarget.style.backgroundColor = "red";
+            console.log("id array üst",idArray);
+            
+            console.log("id array",idArray);
+            this.constLocalStorage(idArrayKirmizi);
+            
+            
+            this.colorChangeLocalStorage(idArray);
+        }
+    }
     displayClick() {
         clickKoltuk = koltuklar.querySelectorAll(".th-click");
+        let renk="lightyellow"
         //console.log(clickKoltuk);
         koltuklar.addEventListener("click", event => {
             // console.log(event.target.dataset.id);
             event.target.dataset.id;
-            this.colorChange(event.target, event.target.dataset.id);
+           // console.log(event.target);
+            this.colorChange(event.target, event.target.dataset.id,renk);
             //console.log(event.target.style.backgroundColor);
             this.biletUcret();
 
         });
 
 
-
-
     }
-    colorChange(eventTarget, id) {
+
+    colorChange(eventTarget, id,renk) {
         idArray = Storage.getKoltuk();
-        console.log(eventTarget.style.backgroundColor != "lightyellow");
-        if (eventTarget.dataset.id != null && eventTarget.style.backgroundColor != "lightyellow") {
-            eventTarget = eventTarget.style.backgroundColor = "LightYellow";
+       // console.log(eventTarget.style.backgroundColor != renk);
+        
+        if ( eventTarget.dataset.id != null && eventTarget.style.backgroundColor != "lightyellow"&& eventTarget.style.backgroundColor != "red") {
+            eventTarget = eventTarget.style.backgroundColor = renk;
             idArray.push(id);
             this.colorChangeLocalStorage(idArray);
+            
         }
-        else if (eventTarget.dataset.id != null) {
-            eventTarget = eventTarget.style.backgroundColor = "#00FA9A";
+        // else if(eventTarget.dataset.id != null && eventTarget.style.backgroundColor==="lightyellow"){
+
+        //     eventTarget = eventTarget.style.backgroundColor = "red";
+            
+        //     this.colorChangeLocalStorage(idArray);
+        // }
+        else if (eventTarget.dataset.id != null && eventTarget.style.backgroundColor != "red" ) {
+            eventTarget = eventTarget.style.backgroundColor = "green";
             idArray.pop(id);
             this.colorChangeLocalStorage(idArray);
         }
+        
 
 
     }
     colorChangeLocalStorage(idArray) {
         Storage.saveKoltuklar(idArray);
     }
-    colorStatementGetStorage() {
+    constLocalStorage(idArray) {
+        Storage.saveKoltuklarKalici(idArray);
+    }
+    colorStatementGetStorage(idArrayKirmizi) {
         let degisken = Storage.getKoltuk();
-
+       let  kaliciKoltuk=Storage.getKoltukKalici();
+       //console.log(kaliciKoltuk);
+       // console.log("burasi kirmizi array",idArrayKirmizi);
         clickKoltuk.forEach(element => {
+            //console.log(element);
             let id1 = degisken.find((d) => d === element.dataset.id);
-
-            if (id1 === element.dataset.id) {
-                element.setAttribute("style", "background-color:LightYellow;")
+            let id2 = kaliciKoltuk.find((d) => d === element.dataset.id);
+            if(id1 !== element.dataset.id){
+                element.setAttribute("style", "background-color:green;");
             }
+            
+            if (id1 === element.dataset.id ) {
+                element.setAttribute("style", "background-color:LightYellow;");
+                //console.log("buraya girdi yellow");
+            }
+            if(id2===element.dataset.id ){
+                
+                element.setAttribute("style", "background-color:red;");
+            }
+            
 
         });
         //console.log(clickKoltuk[11].dataset.id);
 
 
     }
-    biletSayisi() {
-        let degisken = Storage.getKoltuk().length;
-        return degisken;
-    }
+   
   biletUcret(){
         let adet=this.biletSayisi();
         let sayisi=35*this.biletSayisi();
@@ -118,6 +191,9 @@ class Storage {
     static saveKoltuklar(koltuklar) {
         localStorage.setItem("koltuklar", JSON.stringify(koltuklar));
     }
+    static saveKoltuklarKalici(koltuklar) {
+        localStorage.setItem("koltuklarKalici", JSON.stringify(koltuklar));
+    }
     static getKoltukId(id) {
         let koltuklar = JSON.parse(localStorage.getItem("koltuklar"));
         return koltuklar.find(koltuk => koltuk.id === id);
@@ -129,7 +205,9 @@ class Storage {
     static getKoltuk() {
         return localStorage.getItem("koltuklar") ? JSON.parse(localStorage.getItem("koltuklar")) : [];
     }
-
+    static getKoltukKalici() {
+        return localStorage.getItem("koltuklarKalici") ? JSON.parse(localStorage.getItem("koltuklarKalici")) : [];
+    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -139,9 +217,8 @@ document.addEventListener("DOMContentLoaded", () => {
     
     koltukSecimi1.displayKoltuk();
     koltukSecimi1.displayClick();
-    
-    koltukSecimi1.colorStatementGetStorage();
-    
-    
-
+     
+    koltukSecimi1.colorStatementGetStorage(idArrayKirmizi);
+       
+    koltukSecimi1.keyDown();
 });
