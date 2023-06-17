@@ -1,0 +1,143 @@
+body {
+    background-color: rgba(0, 0, 0, 0.836);
+}
+
+/* !film list start  */
+.top-img {
+    width: 15rem;
+    height: 5rem;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 0px 30px white;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.window-component div table tr th {
+    background-color: #00FA9A;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 35%;
+}
+.window-component div table tr th:hover{
+    background-color:LightYellow ;
+    transform: scale(1.2);
+    cursor: grab;
+}
+
+.window-component {
+    display: flex;
+    column-gap: 1.2rem;
+    justify-content: center;
+}
+
+/* !film list end  */
+/* !dropdown start  */
+.dropbtn {
+    background-color: #fafafa;
+    color: rgb(34, 34, 34);
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+
+}
+
+.cinema-salon {
+    text-align: center;
+}
+
+.dropdown {
+
+    display: inline-block;
+
+    margin-top: 1rem;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #76ad78;
+}
+
+/* !dropdown end  */
+/* !bottom window start  */
+
+
+.bottom-display {
+
+    color: rgb(0, 0, 0);
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.bottom-display-table {
+    border-spacing: 1em 0.5em;
+  padding: 0 2em 1em 0;
+  border: 1px solid orange;
+    background-color: rgba(0, 0, 0, 0.281);
+}
+.bottom-display-th-secili{
+    background-color: LightYellow;
+    
+}
+
+.bottom-display table tr td{
+    width: 2rem;
+    height: 2rem;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 35%;
+}
+.bottom-th{
+    color: #fafafa;
+
+}
+.bottom-display-th-dolu{
+    background-color: #800000;
+}
+.bottom-display-th-bos{
+    background-color: #00FA9A;
+}
+.bottom-display-coin-u{
+    color: LightYellow;
+    text-decoration: none;
+}
+.bottom-display-adet{
+    color: LightYellow;
+    text-decoration: none;
+    font-weight: bold;
+}
+.bottom-display-u{
+    color: white;
+    text-decoration: none;
+    
+}
+.bottom-display-coin{
+    text-decoration: none;
+    text-align: center;
+    margin-top: 1rem;
+    font-weight: bold;
+}
+/* !bottom window end  */
